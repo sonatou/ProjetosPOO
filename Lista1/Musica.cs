@@ -13,11 +13,21 @@ namespace ProjetoPoo
         private string artista;
         private string genero;
         private int ano;
-        private int duracao;
+        private float duracao;
         
+
+        public Musica(int id, string nome, string artista, string genero, int ano, float duracao)
+        {
+            this.id = id;
+            this.nome = nome;
+            this.artista = artista;
+            this.genero = genero;
+            this.ano = id;
+            this.duracao = id;
+        }
         public void Play()
         {
-            Console.WriteLine("Tocando agora: {0}", this.nome);
+            Console.WriteLine("Tocando agora: {0} - {1}", this.nome, this.artista);
         }
 
         public void Pause()

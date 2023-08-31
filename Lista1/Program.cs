@@ -35,7 +35,21 @@ namespace ProjetoPoo
             data.ImprimirData();
             data.ImprimirDataPorExtenso("Porto Alegre");
 
-            Console.WriteLine("Pressione Enter para sair...");
+
+            Musica musica = new Musica(00, "My Boo", "Usher", "Rap", 2004, 3);
+            musica.Play();
+            musica.Pause();
+
+            Console.WriteLine("\n Criando playlist");
+            List<Musica> playlist = new List<Musica>();
+
+            Console.WriteLine("\n Playlist contém {0} musicas ", playlist.Count);
+
+            playlist.Add(musica);
+            Console.WriteLine("\n Musica adicionada com sucesso");
+            Console.WriteLine("\n Playlist contém {0} musicas ", playlist.Count);
+
+            Console.WriteLine("\n Pressione Enter para sair...");
             Console.ReadLine();
         }
     }

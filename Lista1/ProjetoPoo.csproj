@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Data.cs" />
     <Compile Include="mago.cs" />
+    <Compile Include="Musica.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
