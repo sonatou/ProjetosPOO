@@ -7,9 +7,10 @@
     {
         static void Main(string[] args)
         {
+            AlbumManager manager = new AlbumManager();
 
             // Carregar os dados dos arquivos ao iniciar o programa
-            LoadDataFromFiles("usuarios.csv", "figurinhas.csv", "trocas.csv");
+            //LoadDataFromFiles("usuarios.csv", "figurinhas.csv", "trocas.csv");
 
             bool continuar = true;
 
@@ -26,15 +27,10 @@
                 switch (escolha)
                 {
                     case "1":
-                        Usuario usuario = new Usuario();
-                        Console.Write("Digite seu nome de usuario: ");
-                        string nome = Console.ReadLine();
-                        Console.WriteLine("Digite sua senha:");
-                        string senha = Console.ReadLine();
-                        usuario.Cadastrar(nome, senha);
+                        manager.LoadDataFromFiles();
                         break;
                     case "2":
-                        AcessarAlbum();
+                        //AcessarAlbum();
                         break;
                     case "3":
                         continuar = false;
@@ -46,8 +42,7 @@
             }
 
             // Salvar as alterações nos arquivos ao sair do aplicativo
-            SalvarDadosEmArquivos("usuarios.csv", "figurinhas.csv", "trocas.csv");
+            //SalvarDadosEmArquivos("usuarios.csv", "figurinhas.csv", "trocas.csv");
         }
     }
     }
-}

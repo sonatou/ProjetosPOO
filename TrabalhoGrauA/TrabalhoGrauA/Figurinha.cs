@@ -14,5 +14,12 @@ namespace TrabalhoGrauA
         public int status;
         public int nroPagina;
 
+        public Figurinha(int numero, string nome, string conteudo, int status)
+        {
+            this.numero = numero;
+            this.nome = nome;
+            this.conteudo = conteudo;
+            this.status = status;
+        }
     }
 }

@@ -11,12 +11,13 @@ namespace TrabalhoGrauA
         public string nomeDeUsuario;
         public string senha;
         public Album album;
-        public Usuario() { }
 
         public string getNomeDeUsuario() { return nomeDeUsuario; }
-        public void Cadastrar(string nomeDeUsuario, string senha)
+
+        public Usuario(string nomeDeUsuario, string senha) 
         {
-            
+            this.nomeDeUsuario= nomeDeUsuario;
+            this.senha= senha;
         }
 
         public bool VerificarLogin(string usuario, string senha) 
