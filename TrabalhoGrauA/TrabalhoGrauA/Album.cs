@@ -12,20 +12,13 @@ namespace TrabalhoGrauA
         public List<Figurinha> figurinhas = new List<Figurinha>();
         public List<Troca> requisicoesTrocas = new List<Troca>();
 
-        public void CriaAlbum()
-        {
-            for(int i = 0; i == 10; i++)
-            {
-                paginas.Add(new Pagina());
-            }
-        }
-
         public void MostrarAlbum()
         {
             for(int i = 0; i < paginas.Count;)
             {
                 Console.WriteLine(paginas[i].titulo);
                 paginas[i].MostrarPagina();
+                Console.WriteLine("-----------------Album----------------");
                 Console.WriteLine("1. Avançar página");
                 Console.WriteLine("2. Recuar página");
                 Console.WriteLine("3. Voltar ao menu anterior");

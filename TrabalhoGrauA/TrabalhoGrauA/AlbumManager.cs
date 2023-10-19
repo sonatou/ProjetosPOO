@@ -27,6 +27,13 @@ namespace TrabalhoGrauA
             trocas = LoadTrocasFromFile();
         }
 
+        public void SaveDataOnFiles()
+        {
+            SaveFigurinhasOnFile();
+            SaveUsuariosOnFile();
+            SaveTrocasOnFile();
+        }
+
         public void CriarNovoUsuario()
         {
             Console.Write("Digite o nome de usuario: ");
@@ -44,9 +51,7 @@ namespace TrabalhoGrauA
             usuarios.Add(novoUsuario);
 
             Console.WriteLine("usuario criado com sucesso.");
-
-            SalvarUsuariosNoArquivo();
-
+            SaveUsuariosOnFile();
         }
 
         public void AcessarAlbum()
@@ -59,7 +64,7 @@ namespace TrabalhoGrauA
             Usuario usuario = usuarios.Find(u => u.nomeDeUsuario == nomeUsuario && u.senha == senha);
             if (usuario == null)
             {
-                Console.WriteLine("Nome de usuario ou senha incorretos. Tente novamente.");
+                Console.WriteLine("nome de usuario ou senha incorretos. Tente novamente.");
                 return;
             }
             else
@@ -67,11 +72,11 @@ namespace TrabalhoGrauA
                 bool menu2 = true;
                 while(menu2)
                 {
-                    Console.WriteLine($"Bem vindo {usuario.nomeDeUsuario}");
+                    Console.WriteLine($"--------------Album de {usuario.nomeDeUsuario}---------");
                     Console.WriteLine("O que deseja fazer?");
-                    Console.WriteLine("1 - Ver Album");
-                    Console.WriteLine("2 - Gerenciar Coleção");
-                    Console.WriteLine("3 - Abrir Pacote de Figurinhas");
+                    Console.WriteLine("1 - Ver album");
+                    Console.WriteLine("2 - Gerenciar colecao");
+                    Console.WriteLine("3 - Abrir pacote de figurinhas");
                     Console.WriteLine("4 - Voltar ao menu anterior");
                     string escolha = Console.ReadLine();
 
@@ -81,10 +86,10 @@ namespace TrabalhoGrauA
                             usuario.album.MostrarAlbum();
                             break;
                         case "2":
-                            
+                            MostraColecao();
                             break;
                         case "3":
-                            
+                            AbrirPacoteDeFigurinhas();
                             break;
                         case "4":
                             menu2= false;
@@ -97,40 +102,80 @@ namespace TrabalhoGrauA
             }
         }
 
-        public void MostrarDados()
+        public void MostraColecao()
         {
-            Console.WriteLine("--------USUARIOS-------");
-            foreach (var usuario in usuarios) 
+            List<Figurinha> colecao = figurinhas.Where(f => f.status == 0).ToList();
+            Console.Clear();
+            foreach(Figurinha figurinha in colecao)
             {
-                Console.Write(usuario.nomeDeUsuario);
-                Console.Write(" - ");
-                Console.Write(usuario.senha);
-                Console.WriteLine();
+                Console.WriteLine($"{figurinha.numero} - {figurinha.nome} - {figurinha.conteudo} - {figurinha.nroPagina}");
             }
-            Console.WriteLine("--------TROCAS-------");
-            foreach (var troca in trocas)
+
+            bool menu3 = true;
+
+            while (menu3)
             {
-                Console.Write(troca.nomeProponente);
-                Console.Write(" - ");
-                Console.Write(troca.figurinhaRequerida);
-                Console.Write(" - ");
-                Console.Write(troca.figurinhaDisponivel);
-                Console.Write(" - ");
-                Console.Write(troca.status);
-                Console.WriteLine();
+                Console.WriteLine("-------------Coleção---------------");
+                Console.WriteLine("1 - Colar Figurinha");
+                Console.WriteLine("2 - Disponibilizar para troca");
+                Console.WriteLine("3 - Propor troca de figurinhas");
+                Console.WriteLine("4 - Revisar solicitações de troca");
+                Console.WriteLine("5 - Voltar ao menu Anterior");
+
+                string escolha = Console.ReadLine();
+
+                switch (escolha)
+                {
+                    case "1":
+                       
+                        break;
+
+                    case "2":
+                        
+                        break;
+
+                    case "3":
+                        
+                        break;
+
+                    case "4":
+                        
+                        break;
+
+                    case "5":
+                        menu3 = false;
+                        break;
+                    default:
+                        Console.WriteLine("Opção inválida. Tente novamente.");
+                        break;
+                }
             }
-            Console.WriteLine("--------FIGURINHAS-------");
-            foreach (var figurinha in figurinhas)
+        }
+
+        public void AbrirPacoteDeFigurinhas()
+        {
+            Random random = new Random();
+            List<Figurinha> figurinhasSorteadas = new List<Figurinha>();
+
+            for (int i = 0; i < 3; i++)
             {
-                Console.Write(figurinha.numero);
-                Console.Write(" - ");
-                Console.Write(figurinha.nome);
-                Console.Write(" - ");
-                Console.Write(figurinha.conteudo);
-                Console.Write(" - ");
-                Console.Write(figurinha.status);
-                Console.WriteLine();
+                int numeroSorteado = random.Next(1, 101);
+                Figurinha figurinhaSorteada = figurinhas.FirstOrDefault(f => f.numero == numeroSorteado);
+
+                if (figurinhaSorteada != null)
+                {
+                    figurinhaSorteada.status = 0;
+                    figurinhasSorteadas.Add(figurinhaSorteada);
+                }
             }
+
+            Console.Clear();
+            Console.WriteLine("voce obteve as seguintes figurinhas:");
+            foreach (var figurinha in figurinhasSorteadas)
+            {
+                Console.WriteLine($"{figurinha.numero} - {figurinha.nome}");
+            }
+            SaveFigurinhasOnFile();
         }
 
         private List<Usuario> LoadUsuariosFromFile()
@@ -163,12 +208,12 @@ namespace TrabalhoGrauA
             {
                 if (linha.Length >= 4)
                 {
-                    if (int.TryParse(linha[0], out int numero) && int.TryParse(linha[3], out int status))
+                    if (int.TryParse(linha[0], out int numero) && int.TryParse(linha[3], out int status) && int.TryParse(linha[4], out int nroPagina))
                     {
                         string nome = linha[1];
                         string conteudo = linha[2];
 
-                        Figurinha figurinha = new Figurinha(numero, nome, conteudo, status);
+                        Figurinha figurinha = new Figurinha(numero, nome, conteudo, status, nroPagina);
                         listaFigurinhas.Add(figurinha);
                     }
                 }
@@ -176,6 +221,7 @@ namespace TrabalhoGrauA
             Console.WriteLine(listaFigurinhas.Count);
             return listaFigurinhas;
         }
+
 
         private List<Troca> LoadTrocasFromFile()
         {
@@ -199,7 +245,7 @@ namespace TrabalhoGrauA
             return listaTrocas;
         }
 
-        private void SalvarUsuariosNoArquivo()
+        private void SaveUsuariosOnFile()
         {           
             using (StreamWriter writer = new StreamWriter(usuariosFilePath))
             {
@@ -210,7 +256,7 @@ namespace TrabalhoGrauA
             }
         }
 
-        private void SalvarFigurinhasNoArquivo()
+        private void SaveFigurinhasOnFile()
         {
             using (StreamWriter writer = new StreamWriter(figurinhasFilePath))
             {
@@ -221,7 +267,7 @@ namespace TrabalhoGrauA
             }
         }
 
-        private void SalvarTrocasNoArquivo()
+        private void SaveTrocasOnFile()
         {
             using (StreamWriter writer = new StreamWriter(trocasFilePath))
             {

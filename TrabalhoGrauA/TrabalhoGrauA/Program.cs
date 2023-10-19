@@ -11,9 +11,9 @@
 
             manager.LoadDataFromFiles();
 
-            bool continuar = true;
+            bool menu1 = true;
 
-            while (continuar)
+            while (menu1)
             {
                 Console.WriteLine("-------------------------Menu---------------------");
                 Console.WriteLine("1 - Novo Álbum");
@@ -32,7 +32,8 @@
                         manager.AcessarAlbum();
                         break;
                     case "3":
-                        continuar = false;
+                        manager.SaveDataOnFiles();
+                        menu1 = false;
                         break;
                     default:
                         Console.WriteLine("Opção inválida. Tente novamente.");
