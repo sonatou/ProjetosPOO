@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TrabalhoGrauA
 {
-    internal class Troca
+    public class Troca
     {
         public string nomeProponente;
         public int figurinhaRequerida;
@@ -21,7 +21,7 @@ namespace TrabalhoGrauA
             this.status = status;
         }
 
-        public void Aceitar(bool aceitas)
+        public void Aceitar(bool aceitar)
         {
             
         } 

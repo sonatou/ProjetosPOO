@@ -3,14 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Runtime.InteropServices;
 
 namespace TrabalhoGrauA
 {
     class AlbumManager
     {
-        private List<Usuario> usuarios = new List<Usuario>();
-        private List<Figurinha> figurinhas = new List<Figurinha>();
-        private List<Troca> trocas = new List<Troca>();
+        public List<Usuario> usuarios = new List<Usuario>();
+        public List<Figurinha> figurinhas = new List<Figurinha>();
+        public List<Troca> trocas = new List<Troca>();
+
+        private string trocasFilePath = "trocas.csv";
+        private string figurinhasFilePath = "figurinhas.csv";
+        private string usuariosFilePath = "usuarios.csv";
 
         public void LoadDataFromFiles()
         {            
@@ -18,15 +24,7 @@ namespace TrabalhoGrauA
             
             figurinhas = LoadFigurinhasFromFile();
 
-            //trocas = LoadTrocasFromFile(trocasFile);
-        }
-
-        public void SalvarDadosEmArquivos(string usuariosFile, string figurinhasFile, string trocasFile)
-        {
-            // Implemente o código para salvar os dados nos arquivos aqui
-            SaveUsuariosToFile(usuariosFile, usuarios);
-            SaveFigurinhasToFile(figurinhasFile, figurinhas);
-            SaveTrocasToFile(trocasFile, trocas);
+            trocas = LoadTrocasFromFile();
         }
 
         public void CriarNovoUsuario()
@@ -46,6 +44,9 @@ namespace TrabalhoGrauA
             usuarios.Add(novoUsuario);
 
             Console.WriteLine("usuario criado com sucesso.");
+
+            SalvarUsuariosNoArquivo();
+
         }
 
         public void AcessarAlbum()
@@ -61,18 +62,82 @@ namespace TrabalhoGrauA
                 Console.WriteLine("Nome de usuario ou senha incorretos. Tente novamente.");
                 return;
             }
+            else
+            {
+                bool menu2 = true;
+                while(menu2)
+                {
+                    Console.WriteLine($"Bem vindo {usuario.nomeDeUsuario}");
+                    Console.WriteLine("O que deseja fazer?");
+                    Console.WriteLine("1 - Ver Album");
+                    Console.WriteLine("2 - Gerenciar Coleção");
+                    Console.WriteLine("3 - Abrir Pacote de Figurinhas");
+                    Console.WriteLine("4 - Voltar ao menu anterior");
+                    string escolha = Console.ReadLine();
 
-            // Implementar as opções de acesso ao álbum para o usuário
-            // Por exemplo, listar figurinhas, adicionar figurinhas, fazer trocas, etc.
+                    switch (escolha)
+                    {
+                        case "1":
+                            usuario.album.MostrarAlbum();
+                            break;
+                        case "2":
+                            
+                            break;
+                        case "3":
+                            
+                            break;
+                        case "4":
+                            menu2= false;
+                            break;
+                        default:
+                            Console.WriteLine("Opção inválida. Tente novamente.");
+                            break;
+                    }
+                }
+            }
         }
 
-        // Funções auxiliares para carregar dados dos arquivos
+        public void MostrarDados()
+        {
+            Console.WriteLine("--------USUARIOS-------");
+            foreach (var usuario in usuarios) 
+            {
+                Console.Write(usuario.nomeDeUsuario);
+                Console.Write(" - ");
+                Console.Write(usuario.senha);
+                Console.WriteLine();
+            }
+            Console.WriteLine("--------TROCAS-------");
+            foreach (var troca in trocas)
+            {
+                Console.Write(troca.nomeProponente);
+                Console.Write(" - ");
+                Console.Write(troca.figurinhaRequerida);
+                Console.Write(" - ");
+                Console.Write(troca.figurinhaDisponivel);
+                Console.Write(" - ");
+                Console.Write(troca.status);
+                Console.WriteLine();
+            }
+            Console.WriteLine("--------FIGURINHAS-------");
+            foreach (var figurinha in figurinhas)
+            {
+                Console.Write(figurinha.numero);
+                Console.Write(" - ");
+                Console.Write(figurinha.nome);
+                Console.Write(" - ");
+                Console.Write(figurinha.conteudo);
+                Console.Write(" - ");
+                Console.Write(figurinha.status);
+                Console.WriteLine();
+            }
+        }
+
         private List<Usuario> LoadUsuariosFromFile()
         {
             List<Usuario> listaUsuarios = new List<Usuario>();
-            string filePath = "C:\\Users\\allan.almeida\\Desktop\\Study\\UNISINOS\\ProjetosPOO\\TrabalhoGrauA\\TrabalhoGrauA\\usuarios.csv"; // Substitua pelo caminho do seu arquivo CSV
 
-            List<string[]> dados = LerDadosDoCSV(filePath);
+            List<string[]> dados = LerDadosDoCSV(usuariosFilePath);
 
             foreach (string[] linha in dados)
             {
@@ -91,9 +156,8 @@ namespace TrabalhoGrauA
         private List<Figurinha> LoadFigurinhasFromFile()
         {
             List<Figurinha> listaFigurinhas = new List<Figurinha>();
-            string filePath = "C:\\Users\\allan.almeida\\Desktop\\Study\\UNISINOS\\ProjetosPOO\\TrabalhoGrauA\\TrabalhoGrauA\\figurinhas.csv";
 
-            List<string[]> dados = LerDadosDoCSV(filePath);
+            List<string[]> dados = LerDadosDoCSV(figurinhasFilePath);
 
             foreach (string[] linha in dados)
             {
@@ -116,9 +180,8 @@ namespace TrabalhoGrauA
         private List<Troca> LoadTrocasFromFile()
         {
             List<Troca> listaTrocas = new List<Troca>();
-            string filePath = "C:\\Users\\allan.almeida\\Desktop\\Study\\UNISINOS\\ProjetosPOO\\TrabalhoGrauA\\TrabalhoGrauA\\trocas.csv"; // Substitua pelo caminho do seu arquivo CSV
 
-            List<string[]> dados = LerDadosDoCSV(filePath);
+            List<string[]> dados = LerDadosDoCSV(trocasFilePath);
 
             foreach (string[] linha in dados)
             {
@@ -136,20 +199,37 @@ namespace TrabalhoGrauA
             return listaTrocas;
         }
 
-        // Funções auxiliares para salvar dados nos arquivos
-        private void SaveUsuariosToFile(string filePath, List<Usuario> usuarios)
-        {
-            // Implemente a lógica para salvar os dados dos usuários no arquivo
+        private void SalvarUsuariosNoArquivo()
+        {           
+            using (StreamWriter writer = new StreamWriter(usuariosFilePath))
+            {
+                foreach (Usuario usuario in usuarios)
+                {
+                    writer.WriteLine($"{usuario.nomeDeUsuario},{usuario.senha}");
+                }
+            }
         }
 
-        private void SaveFigurinhasToFile(string filePath, List<Figurinha> figurinhas)
+        private void SalvarFigurinhasNoArquivo()
         {
-            // Implemente a lógica para salvar os dados das figurinhas no arquivo
+            using (StreamWriter writer = new StreamWriter(figurinhasFilePath))
+            {
+                foreach (Figurinha figurinha in figurinhas)
+                {
+                    writer.WriteLine($"{figurinha.numero},{figurinha.nome},{figurinha.conteudo},{figurinha.status}");
+                }
+            }
         }
 
-        private void SaveTrocasToFile(string filePath, List<Troca> trocas)
+        private void SalvarTrocasNoArquivo()
         {
-            // Implemente a lógica para salvar os dados das trocas no arquivo
+            using (StreamWriter writer = new StreamWriter(trocasFilePath))
+            {
+                foreach (Troca troca in trocas)
+                {
+                    writer.WriteLine($"{troca.nomeProponente},{troca.figurinhaRequerida},{troca.figurinhaDisponivel},{troca.status}");
+                }
+            }
         }
 
         static List<string[]> LerDadosDoCSV(string filePath)
@@ -161,7 +241,7 @@ namespace TrabalhoGrauA
                 while (!reader.EndOfStream)
                 {
                     string linha = reader.ReadLine();
-                    string[] valores = linha.Split(','); // Assumindo que os valores estejam separados por vírgula
+                    string[] valores = linha.Split(',');
 
                     linhas.Add(valores);
                 }

@@ -3,14 +3,13 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
             AlbumManager manager = new AlbumManager();
 
-            // Carregar os dados dos arquivos ao iniciar o programa
-            //LoadDataFromFiles("usuarios.csv", "figurinhas.csv", "trocas.csv");
+            manager.LoadDataFromFiles();
 
             bool continuar = true;
 
@@ -27,10 +26,10 @@
                 switch (escolha)
                 {
                     case "1":
-                        manager.LoadDataFromFiles();
+                        manager.CriarNovoUsuario();
                         break;
                     case "2":
-                        //AcessarAlbum();
+                        manager.AcessarAlbum();
                         break;
                     case "3":
                         continuar = false;
@@ -40,9 +39,6 @@
                         break;
                 }
             }
-
-            // Salvar as alterações nos arquivos ao sair do aplicativo
-            //SalvarDadosEmArquivos("usuarios.csv", "figurinhas.csv", "trocas.csv");
         }
     }
-    }
+}

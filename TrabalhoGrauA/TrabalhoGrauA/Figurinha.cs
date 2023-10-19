@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TrabalhoGrauA
 {
-    internal class Figurinha
+    public class Figurinha
     {
         public int numero;
         public string nome;

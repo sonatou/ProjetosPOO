@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TrabalhoGrauA
 {
-    internal class Usuario
+    public class Usuario
     {
         public string nomeDeUsuario;
         public string senha;
@@ -18,6 +18,7 @@ namespace TrabalhoGrauA
         {
             this.nomeDeUsuario= nomeDeUsuario;
             this.senha= senha;
+            this.album= new Album();
         }
 
         public bool VerificarLogin(string usuario, string senha) 
