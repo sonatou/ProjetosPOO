@@ -10,8 +10,30 @@ namespace TrabalhoGrauB
     {
         public string nomeDeUsuario;
         public string senha;
-        public bool assinatura;
+        public string assinatura;
         public List<Perfil> perfis;
+
+        public Usuario(string nomeDeUsuario, string senha, string assinatura)
+        {
+            this.nomeDeUsuario = nomeDeUsuario;
+            this.senha = senha;
+            this.assinatura = assinatura;
+        }
+
+        public void MostraPerfis()
+        {
+            if(perfis != null)
+            {
+                foreach(Perfil perfil in perfis)
+                {
+                    Console.WriteLine($"{perfil.nome}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Nenhum perfil criado, crie um perfil");
+            }
+        }
 
         public void AdicionarPerfil(string nome, int idade)
         {

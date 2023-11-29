@@ -13,7 +13,13 @@ namespace TrabalhoGrauB
         
         public override void ExibirInformacoes(int id)
         {
-
+            Console.WriteLine("ID: " + id);
+            Console.WriteLine("Nome: " + titulo);
+            Console.WriteLine("Diretor: " + diretor);
+            Console.WriteLine("Produtor: " + produtor);
+            Console.WriteLine("Ano: " + ano);
+            Console.WriteLine("Genero: " + genero);
         }
+        
     }
 }
