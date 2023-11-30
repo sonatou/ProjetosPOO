@@ -79,7 +79,10 @@ namespace TrabalhoGrauB
                     switch (escolha)
                     {
                         case "1":
-                           
+                            Console.WriteLine("Qual Perfil deseja acessar?");
+                            string perfilEscolhido = Console.ReadLine();
+                            Perfil perfil = usuario.perfis.Find(p => p.nome == perfilEscolhido);
+                            AcessarPerfil(perfil);
                             break;
                         case "2":
                            
@@ -101,6 +104,11 @@ namespace TrabalhoGrauB
             }
         }
 
+        private void AcessarPerfil(Perfil perfil)
+        {
+            
+        }
+
         private List<Usuario> LoadUsuariosFromFile()
         {
             List<Usuario> listaUsuarios = new List<Usuario>();
@@ -109,7 +117,7 @@ namespace TrabalhoGrauB
 
             foreach (string[] linha in dados)
             {
-                if (linha.Length >= 2)
+                if (linha.Length >= 3)
                 {
                     string nomeUsuario = linha[1];
                     string senha = linha[2];
