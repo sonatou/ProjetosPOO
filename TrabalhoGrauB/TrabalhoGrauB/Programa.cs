@@ -10,7 +10,11 @@ namespace TrabalhoGrauB
     {
         public int episodios;
         public List<string> listaEpisodios;
-        
+
+        public Programa(string tipo, string titulo, string genero, string ano, string classificacao) : base(tipo, titulo, genero, ano, classificacao)
+        {
+        }
+
         public override void ExibirInformacoes(int id)
         {
 

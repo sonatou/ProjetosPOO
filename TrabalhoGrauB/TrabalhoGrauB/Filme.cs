@@ -10,7 +10,11 @@ namespace TrabalhoGrauB
     {
         public string diretor;
         public string produtor;
-        
+
+        public Filme(string tipo, string titulo, string genero, string ano, string classificacao) : base(tipo, titulo, genero, ano, classificacao)
+        {
+        }
+
         public override void ExibirInformacoes(int id)
         {
             Console.WriteLine("ID: " + id);

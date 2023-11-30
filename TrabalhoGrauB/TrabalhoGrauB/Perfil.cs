@@ -16,6 +16,11 @@ namespace TrabalhoGrauB
         public List<Midia> favoritos;
         public List<Midia> ultimosAssistidos;
 
+        public Perfil(string nome, int idade)
+        {
+            this.nome = nome;
+            this.idade = idade;
+        }
         public void AdicionaFavorito(Midia favorito)
         {
 

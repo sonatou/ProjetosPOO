@@ -12,8 +12,17 @@ namespace TrabalhoGrauB
         public string tipo;
         public string titulo;
         public string genero;
-        public int ano;
-        public int classificacao;
+        public string ano;
+        public string classificacao;
+
+        public Midia(string tipo, string titulo, string genero, string ano, string classificacao)
+        {
+            this.tipo = tipo;
+            this.titulo = titulo;
+            this.genero = genero;
+            this.ano = ano;
+            this.classificacao = classificacao;
+        }
 
         public virtual void ExibirInformacoes(int id)
         {

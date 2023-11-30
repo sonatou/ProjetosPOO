@@ -37,7 +37,7 @@ namespace TrabalhoGrauB
 
         public void AdicionarPerfil(string nome, int idade)
         {
-
+            perfis.Add(new Perfil(nome, idade));
         }
 
         public void RemoverPerfil(string nome)

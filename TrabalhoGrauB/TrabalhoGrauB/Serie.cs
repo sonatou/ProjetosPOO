@@ -8,14 +8,18 @@ namespace TrabalhoGrauB
 {
     public class Serie : Midia
     {
-        public int temporadas;
+        public string temporadas;
         public List<string> episodios;
         
+        public Serie(string tipo, string titulo, string genero, string ano, string classificacao, string temporadas, List<string> episodios) : base(tipo, titulo, genero, ano, classificacao)
+        {
+            this.temporadas = temporadas;
+            this.episodios = episodios;
+        }
         public override void ExibirInformacoes(int id)
         {
 
         }
-
         public void ListarEpisodios(int temporada)
         {
 
