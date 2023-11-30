@@ -37,7 +37,7 @@
             foreach (var assinatura in assinaturas)
             {
                 Console.WriteLine($"Tipo: {assinatura.GetType().Name}");
-                Console.WriteLine($"Preço: R$ {assinatura.CalcularPreco():F2}");
+                Console.WriteLine($"Preço: R$ {assinatura.CalcularPreco()}");
                 assinatura.ExibirDetalhes();
                 Console.WriteLine();
             }
