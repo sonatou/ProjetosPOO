@@ -12,25 +12,30 @@ namespace TrabalhoGrauB
     {
         public List<Usuario> usuarios = new List<Usuario>();
         public List<Midia> midias = new List<Midia>();
+        public List<Perfil> perfis = new List<Perfil>();
 
         private string usuariosFilePath = "ExemploUsuarios.csv";
         private string midiasFilePath = "CatalogoExemplo.csv";
+        private string perfisFilePath = "ExemploPerfis.csv";
+
 
         public void LoadDataFromFiles()
         {            
             usuarios = LoadUsuariosFromFile();
             midias = LoadMidiasFromFile();
+            perfis = LoadPerfisFromFile();
         }
 
         public void SaveDataOnFiles()
         {
             SaveUsuariosOnFile();
+            SaveMidiasOnFile();
+            SavePerfisOnFile();
         }
 
         public void CriarNovoUsuario(string nomeUsuario, string senha)
         {
             Console.Clear();
-            Console.WriteLine("Qual plano deseja");
             Console.WriteLine("Simples: ");
             Console.WriteLine("Direito a 3 perfis");
             Console.WriteLine("Propagandas entre mídias assistidas ");
@@ -40,6 +45,7 @@ namespace TrabalhoGrauB
             Console.WriteLine("Direito a 5 perfis");
             Console.WriteLine("Sem propaganda");
             Console.WriteLine("Custo 49,90 mensal");
+            Console.WriteLine("Qual plano deseja?");
 
             string plano = Console.ReadLine();
 
@@ -66,6 +72,7 @@ namespace TrabalhoGrauB
             }
             else
             {
+
                 bool menu2 = true;
                 while(menu2)
                 {
@@ -97,20 +104,47 @@ namespace TrabalhoGrauB
                             }
                             break;
                         case "2":
-                           
+                            Console.WriteLine("Qual Perfil deseja editar?");
+                            string perfilEdicao = Console.ReadLine();
+                            Perfil perfilE = usuario.perfis.Find(p => p.nome == perfilEdicao);
+                            if (perfilE == null)
+                            {
+                                Console.WriteLine("Perfil não encontrado");
+                                break;
+                            }
+                            else
+                            {
+                                perfilE.EditarPerfil();
+                            }
+                            SaveDataOnFiles();
                             break;
                         case "3":
                             Console.WriteLine("Digite o nome do perfil: "); 
                             string nomePerfil = Console.ReadLine();
                             Console.WriteLine("Digite a idade do perfil: ");
-                            int idadePerfil = Convert.ToInt32(Console.ReadLine());
-                            usuario.AdicionarPerfil(nomePerfil, idadePerfil);
+                            string idadePerfil = Console.ReadLine();
+                            perfis.Add(usuario.AdicionarPerfil(nomePerfil, idadePerfil));
+                            Console.WriteLine("Perfil criado com sucesso");
+                            SaveDataOnFiles();
                             break;
                         case "4":
-                            
+                            Console.WriteLine("Qual Perfil deseja Remover?");
+                            string perfilRemover = Console.ReadLine();
+                            Perfil perfilR = usuario.perfis.Find(p => p.nome == perfilRemover);
+                            if (perfilR == null)
+                            {
+                                Console.WriteLine("Perfil não encontrado");
+                                break;
+                            }
+                            else
+                            {
+                                usuario.RemoverPerfil(perfilR.nome);
+                            }
+                            SaveDataOnFiles();
                             break;
                         case "5":
-                            menu2= false;
+                            SaveDataOnFiles();
+                            menu2 = false;
                             break;
                         default:
                             Console.WriteLine("Opção inválida. Tente novamente.");
@@ -142,28 +176,75 @@ namespace TrabalhoGrauB
                     case "1":
                         Console.WriteLine("Digite o nome do filme: ");
                         string nome = Console.ReadLine();
-                       
+                        foreach(Midia midia in midias)
+                        {
+                            if (midia.titulo == nome)
+                            {
+                                Console.WriteLine($"{midia.tipo},{midia.titulo},{midia.genero},{midia.ano},{midia.classificacao}");
+                                Console.WriteLine("Deseja assistir? (s/n)");
+                                string resposta = Console.ReadLine();
+                                if (resposta == "s")
+                                {
+                                    perfil.Assistir(midia);
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                            
+                        }                          
                         break;
                     case "2":
-                        WriteAllMidias();
+                        perfil.ultimosAssistidos.ForEach(x => Console.WriteLine(x.titulo));
                         break;
                     case "3":
-
+                        perfil.favoritos.ForEach(x => Console.WriteLine(x.titulo));
                         break;
                     case "4":
-
+                        foreach(Midia midia in midias)
+                        {
+                            if (midia.tipo == "Filme")
+                            {
+                                Console.WriteLine($"{midia.tipo},{midia.titulo},{midia.genero},{midia.ano},{midia.classificacao}");
+                            }
+                        }
                         break;
                     case "5":
-
+                        foreach(Midia midia in midias)
+                        {
+                            if (midia.tipo == "Série")
+                            {
+                                Console.WriteLine($"{midia.tipo},{midia.titulo},{midia.genero},{midia.ano},{midia.classificacao}");
+                            }
+                        }
                         break;
                     case "6":
-
+                        foreach(Midia midia in midias)
+                        {
+                            if (midia.tipo == "Documentário")
+                            {
+                                Console.WriteLine($"{midia.tipo},{midia.titulo},{midia.genero},{midia.ano},{midia.classificacao}");
+                            }
+                        }
                         break;
                     case "7":
-
+                        foreach(Midia midia in midias)
+                        {
+                            if (midia.tipo == "Animação")
+                            {
+                                Console.WriteLine($"{midia.tipo},{midia.titulo},{midia.genero},{midia.ano},{midia.classificacao}");
+                            }
+                        }
                         break;
                     case "8":
-
+                        foreach(Midia midia in midias)
+                        {
+                            if (midia.tipo == "Programa de TV")
+                            {
+                                Console.WriteLine($"{midia.tipo},{midia.titulo},{midia.genero},{midia.ano},{midia.classificacao}");
+                            }
+                        }
                         break;
                     case "9":
                         menu3 = false;
@@ -225,11 +306,33 @@ namespace TrabalhoGrauB
             return listaMidias;
         }   
 
+        public List<Perfil> LoadPerfisFromFile()
+        {
+            List<Perfil> listaPerfis = new List<Perfil>();
+
+            List<string[]> dados = LerDadosDoCSV(perfisFilePath);
+
+            foreach (string[] linha in dados)
+            {
+                if (linha.Length >= 3)
+                {
+                    string nome = linha[1];
+                    string idade =linha[2];
+                    List<Midia> favoritos = new List<Midia>();
+                    List<Midia> ultimosAssistidos = new List<Midia>();
+
+                    Perfil perfil = new Perfil(nome, idade);
+                    listaPerfis.Add(perfil);
+                }
+            }
+            return listaPerfis;
+        }
+
         public void WriteAllMidias()
         {
             foreach (Midia midia in midias)
             {
-                Console.WriteLine($"{midia.tipo},{midia.titulo},{midia.genero},{midia.ano},{midia.classificacao}");
+                Console.WriteLine($"{midia.titulo}");
             }
         }
         private void SaveUsuariosOnFile()
@@ -239,6 +342,28 @@ namespace TrabalhoGrauB
                 foreach (Usuario usuario in usuarios)
                 {
                     writer.WriteLine($"{usuario.nomeDeUsuario},{usuario.senha}");
+                }
+            }
+        }
+
+        private void SaveMidiasOnFile()
+        {
+            using (StreamWriter writer = new StreamWriter(midiasFilePath))
+            {
+                foreach (Midia midia in midias)
+                {
+                    writer.WriteLine($"{midia.tipo},{midia.titulo},{midia.genero},{midia.ano},{midia.classificacao}");
+                }
+            }
+        }
+
+        private void SavePerfisOnFile()
+        {
+            using (StreamWriter writer = new StreamWriter(perfisFilePath))
+            {
+                foreach (Perfil perfil in perfis)
+                {
+                    writer.WriteLine($"{perfil.nome},{perfil.idade}");
                 }
             }
         }

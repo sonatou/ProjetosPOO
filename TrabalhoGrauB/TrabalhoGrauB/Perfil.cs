@@ -12,11 +12,11 @@ namespace TrabalhoGrauB
     public class Perfil
     {
         public string nome;
-        public int idade;
-        public List<Midia> favoritos;
-        public List<Midia> ultimosAssistidos;
+        public string idade;
+        public List<Midia> favoritos = new List<Midia>();
+        public List<Midia> ultimosAssistidos = new List<Midia>();
 
-        public Perfil(string nome, int idade)
+        public Perfil(string nome, string idade)
         {
             this.nome = nome;
             this.idade = idade;
@@ -47,8 +47,9 @@ namespace TrabalhoGrauB
 
         public void Assistir(Midia midia)
         {
-            //exibe uma mensagem que a mídia foi exibida e altera a lista de últimos
-            //assistidos – caso este já exista, remove da lista e adiciona novamente no final
+            ultimosAssistidos.Add(midia);
+            Console.WriteLine($"Assistindo {midia.titulo}");
+            Console.Read();
         }
 
         public void Favoritar(Midia midia, bool fav)
@@ -60,6 +61,16 @@ namespace TrabalhoGrauB
         public void BuscarPorTipo(string tipo, Catalogo catalogo)
         {
             //Dica: pode-se chamar o método listarMidiasApropriadas de cada tipo e fazer as buscas nas listas das diferentes mídias até encontrar o título ou percorrer todas. Retorna a mídia encontrada ou None, caso não encontre
+        }
+
+        public void EditarPerfil()
+        {
+            Console.WriteLine("Digite o novo nome: ");
+            nome = Console.ReadLine();
+            Console.WriteLine("Digite a nova idade: ");
+            idade = Console.ReadLine();
+            this.nome = nome;
+            this.idade = idade;
         }
 
     }

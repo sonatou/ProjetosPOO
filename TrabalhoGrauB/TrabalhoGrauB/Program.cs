@@ -31,7 +31,7 @@ namespace TrabalhoGrauB
                         manager.CriarNovoUsuario(usuario, senha);
                         break;
                     case "3":
-                        
+                        manager.SaveDataOnFiles();
                         menu1 = false;
                         break;
                     default:

@@ -11,7 +11,7 @@ namespace TrabalhoGrauB
         public string nomeDeUsuario;
         public string senha;
         public string assinatura;
-        public List<Perfil> perfis;
+        public List<Perfil> perfis = new List<Perfil>();
 
         public Usuario(string nomeDeUsuario, string senha, string assinatura)
         {
@@ -35,14 +35,16 @@ namespace TrabalhoGrauB
             }
         }
 
-        public void AdicionarPerfil(string nome, int idade)
+        public Perfil AdicionarPerfil(string nome, string idade)
         {
-            perfis.Add(new Perfil(nome, idade));
+            Perfil perfilCriado = new Perfil(nome, idade);
+            perfis.Add(perfilCriado);
+            return perfilCriado;
         }
 
         public void RemoverPerfil(string nome)
         {
-
+            perfis.Remove(perfis.Find(x => x.nome == nome));
         }
 
         public void AlterarSenha(string senha)

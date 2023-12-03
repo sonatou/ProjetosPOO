@@ -9,7 +9,7 @@ namespace TrabalhoGrauB
     public class Programa : Midia
     {
         public int episodios;
-        public List<string> listaEpisodios;
+        public List<string> listaEpisodios = new List<string>();
 
         public Programa(string tipo, string titulo, string genero, string ano, string classificacao) : base(tipo, titulo, genero, ano, classificacao)
         {
