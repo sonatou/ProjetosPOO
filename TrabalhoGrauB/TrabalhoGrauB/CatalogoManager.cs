@@ -339,6 +339,10 @@ namespace TrabalhoGrauB
         {           
             using (StreamWriter writer = new StreamWriter(usuariosFilePath))
             {
+                if (usuarios.Count == 0)
+                {
+                    return;
+                }
                 foreach (Usuario usuario in usuarios)
                 {
                     writer.WriteLine($"{usuario.nomeDeUsuario},{usuario.senha}");
@@ -350,6 +354,10 @@ namespace TrabalhoGrauB
         {
             using (StreamWriter writer = new StreamWriter(midiasFilePath))
             {
+                if (midias.Count == 0)
+                {
+                    return;
+                }
                 foreach (Midia midia in midias)
                 {
                     writer.WriteLine($"{midia.tipo},{midia.titulo},{midia.genero},{midia.ano},{midia.classificacao}");
@@ -361,6 +369,10 @@ namespace TrabalhoGrauB
         {
             using (StreamWriter writer = new StreamWriter(perfisFilePath))
             {
+                if (perfis.Count == 0)
+                {
+                    return;
+                }
                 foreach (Perfil perfil in perfis)
                 {
                     writer.WriteLine($"{perfil.nome},{perfil.idade}");
